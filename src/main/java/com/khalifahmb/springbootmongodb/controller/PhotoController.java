@@ -24,7 +24,7 @@ public class PhotoController {
     @Autowired
     private PhotoService photoService;
 
-    @PostMapping("")
+    @PostMapping(path = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String addPhotoString(@RequestParam("image") MultipartFile image) {
         String id = photoService.addPhoto(image.getOriginalFilename(), image);
         return id;
@@ -37,6 +37,6 @@ public class PhotoController {
         Resource resource = new ByteArrayResource(photo.getPhoto().getData());
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename =\"" + photo.getTitle() + "\"")
-                .contentType(MediaType.APPLICATION_OCTET_STREAM).body(resource);
+                .contentType(MediaType.IMAGE_PNG).body(resource);
     }
 }
